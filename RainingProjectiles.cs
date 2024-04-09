@@ -33,5 +33,7 @@ public class RainingProjectiles : MonoBehaviour
     {
         GameObject projectile = Instantiate(projectilePrefab, new Vector3(Random.Range(-35.0f, 15.0f), spawnHeight, 0.0f), Quaternion.identity) as GameObject;
         projectile.GetComponent<Rigidbody2D>().velocity = Vector2.down * projectileSpeed;
+
+        Destroy(projectile, 5f);
     }
 }

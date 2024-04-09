@@ -21,6 +21,7 @@ public class Attacks : MonoBehaviour
     public GameObject projectilePrefab; // Reference to the projectile prefab
     public float fireRate = 2.0f; // Time between projectile launches (seconds)
     public float projectileSpeed = 10.0f; // Speed of the projectile
+     private int projectileCount = 0; // Track the number of spawned projectiles
 
     private float lastShotTime = Mathf.NegativeInfinity; // Tracks time of last projectile launch
 
@@ -67,7 +68,6 @@ public class Attacks : MonoBehaviour
         while (true) // Loop forever
         {
             randomNumber = Random.Range(0, 4); // Generate random number between 0 and 4 (1, 2, or 3)
-            Debug.Log("Generated random attack: " + randomNumber); // Print to console
             yield return new WaitForSeconds(timeInterval); // Wait for 1 second
         }
     }
@@ -116,10 +116,24 @@ public class Attacks : MonoBehaviour
 
     void FireProjectile()
     {
-        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation) as GameObject;
-        projectile.GetComponent<Rigidbody2D>().velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized * projectileSpeed;
+        if (projectileCount < 10) // Only fire projectile if less than 10 exist
+        {
+            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation) as GameObject;
+            projectile.GetComponent<Rigidbody2D>().velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized * projectileSpeed;
 
-        // Make projectile point towards player
-        projectile.transform.up = (GameObject.FindGameObjectWithTag("Player").transform.position - projectile.transform.position).normalized;
+            projectile.transform.up = (GameObject.FindGameObjectWithTag("Player").transform.position - projectile.transform.position).normalized;
+
+            projectileCount++; // Increment projectile count after successful spawn
+
+            // Destroy projectile after a set lifetime
+            Destroy(projectile, 5f);
+            StartCoroutine(decreaseCount());
+        }
+    }
+
+    IEnumerator decreaseCount()
+    {
+        yield return new WaitForSeconds(5f); // Wait for 5 seconds
+        projectileCount--;
     }
 }

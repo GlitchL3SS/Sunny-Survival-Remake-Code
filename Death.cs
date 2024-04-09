@@ -7,7 +7,7 @@ public class Death : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject gameTerrain;
     public GameObject gameTerrain2;
-    public GameObject uI;
+    public GameObject leaderboard;
 
     public HealthBar healthBar; // Reference to the health bar script
 
@@ -19,7 +19,7 @@ public class Death : MonoBehaviour
             gameOverScreen.SetActive(true);
             gameTerrain.SetActive(false);
             gameTerrain2.SetActive(false);
-            uI.SetActive(false);
+            leaderboard.SetActive(true);
 
             Time.timeScale = 0f;  // Pause the game
         }

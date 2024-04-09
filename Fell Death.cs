@@ -7,7 +7,7 @@ public class FellDeath : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject gameTerrain;
     public GameObject gameTerrain2;
-    public GameObject uI;
+    public GameObject leaderboard;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -17,7 +17,7 @@ public class FellDeath : MonoBehaviour
             gameOverScreen.SetActive(true);
             gameTerrain.SetActive(false);
             gameTerrain2.SetActive(false);
-            uI.SetActive(false);
+            leaderboard.SetActive(true);
 
             Time.timeScale = 0f;  // Pause the game
         }

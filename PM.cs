@@ -38,16 +38,13 @@ public class PM : MonoBehaviour
         // Ground check
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
         // Jump logic
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !jumpCooldown)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             animator.SetTrigger("Jump");
-            StartCoroutine(JumpCooldown());
-            StartCoroutine(NoJump());
         }
-        if (Input.GetKeyUp(KeyCode.Space) && isGrounded && jumpCooldown)
+        if (Input.GetKeyUp(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            jumpCooldown = false;
         }
         // Checks if player is in the air
         if (!isGrounded)
@@ -59,17 +56,5 @@ public class PM : MonoBehaviour
         idleState = Mathf.PingPong(Time.time, 1.0f);
         // Update animation state
         animator.SetFloat("Idle", idleState);
-    }
-
-    IEnumerator JumpCooldown()
-    {
-        yield return new WaitForSeconds(.2f); // Wait for .2 seconds
-        jumpCooldown = true;
-    }
-    IEnumerator NoJump()
-    {
-        yield return new WaitForSeconds(.5f); // Wait for .5 seconds
-        animator.SetTrigger("NoJump");
-        jumpCooldown = false;
     }
 }
